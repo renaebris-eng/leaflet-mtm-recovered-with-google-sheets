@@ -150,7 +150,7 @@ function mapPoints(points, layers) {
           iconAnchor: anchor
         })
       : createMarkerIcon(
-          markerIconStr || 'fa-solid fa-location-pin', // fallback FA icon name
+          markerIconStr || 'fa-life-ring', // fallback FA icon name
           'fa',
           markerColor.toLowerCase(),
           iconColor || 'white'
