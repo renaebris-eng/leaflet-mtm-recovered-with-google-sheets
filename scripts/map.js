@@ -21,23 +21,30 @@ $(window).on('load', function() {
     });
   }
 function createRecoveryMarker(color) {
-  var colorMap = {
-    red: '#d9534f',
-    darkred: '#a94442',
-    orange: '#f0ad4e',
-    yellow: '#f7c948',
-    green: '#5cb85c',
-    darkgreen: '#398439',
-    blue: '#428bca',
-    purple: '#8e44ad',
-    darkpurple: '#663399',
-    cadetblue: '#5bc0de',
-    white: '#f5f5f5',
-    gray: '#777',
-    black: '#222',
-    teal: '#20a39e'
-  };
+var colorMap = {
+  red: '#d64545',
+  darkred: '#8f2d2d',
 
+  orange: '#e87500',
+  yellow: '#f2c300',
+
+  green: '#4f9d50',
+  darkgreen: '#357a38',
+
+  blue: '#3f7fbd',
+  darkblue: '#28527a',
+
+  purple: '#8757a5',
+  darkpurple: '#5b3970',
+
+  cadetblue: '#4f9fa8',
+
+  white: '#eeeeee',
+  gray: '#777777',
+  black: '#222222',
+
+  teal: '#239b8c'
+};
   var ringColor = colorMap[(color || '').toLowerCase()] || '#f7c948';
 
   return L.divIcon({
