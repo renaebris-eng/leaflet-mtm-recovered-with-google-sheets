@@ -193,20 +193,21 @@ if (point['Source'] && point['Source'] !== '') {
   });
 }
 
-// Popup content for recovered cases
+// Popup content
 var popupContent = `
+  ${point['Image'] ? '<img src="' + point['Image'] + '" style="max-width:300px; max-height:220px; width:auto; height:auto; display:block; margin:0 auto 10px auto;">' : ''}
   <b>${point['Name(s)'] || ''}</b><br>
-  ${point['Vehicle missing for'] ? '<b>Vehicle missing for:</b> ' + point['Vehicle missing for'] + '<br>' : ''}
+  ${point['Time missing (vehicle, approximate)'] ? '<b>Missing with Vehicle for:</b> ' + point['Time missing (vehicle, approximate)'] + '<br>' : ''}
   ${point['Tribute'] ? '<b>Tribute:</b> ' + point['Tribute'] + '<br>' : ''}
   ${point['Last seen'] ? '<b>Last seen:</b> ' + point['Last seen'] + '<br>' : ''}
   ${point['Found'] ? '<b>Found:</b> ' + point['Found'] + '<br>' : ''}
-  ${sourcesLinks ? '<b>Source:</b><br>' + sourcesLinks : ''}
+  ${sourcesLinks ? '<br>' + sourcesLinks : ''}
 `;
 
-// Create the marker with validated coords
 var marker = L.marker([lat, lng], {
   icon: icon,
-  Name: point['Name(s)']
+  Name: point['Name(s)'],
+  Description: point['Tribute']
 }).bindPopup(popupContent);
 
 // Small helper to clean text
