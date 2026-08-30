@@ -169,7 +169,7 @@ if (point['Source'] && point['Source'] !== '') {
 // Popup content for recovered cases
 var popupContent = `
   <b>${point['Name(s)'] || ''}</b><br>
-  ${point['Time missing (vehicle, approximate)'] ? '<b>Time missing:</b> ' + point['Time missing (vehicle, approximate)'] + '<br>' : ''}
+  ${point['Vehicle missing for'] ? '<b>Vehicle missing for:</b> ' + point['Vehicle missing for'] + '<br>' : ''}
   ${point['Tribute'] ? '<b>Tribute:</b> ' + point['Tribute'] + '<br>' : ''}
   ${point['Last seen'] ? '<b>Last seen:</b> ' + point['Last seen'] + '<br>' : ''}
   ${point['Found'] ? '<b>Found:</b> ' + point['Found'] + '<br>' : ''}
@@ -190,7 +190,7 @@ function cleanText(str) {
 // Marker search data
 marker.searchData =
   cleanText(point['Name(s)']) + " " +
-  cleanText(point['Time missing (vehicle, approximate)']) + " " +
+  cleanText(point['Vehicle missing for']) + " " +
   cleanText(point['Tribute']) + " " +
   cleanText(point['Last seen']) + " " +
   cleanText(point['Found']) + " " +
@@ -222,7 +222,7 @@ var mergedSearch = new L.Control.Search({
   initial: false,
   zoom: false,
   marker: false,
-  textPlaceholder: 'Search by Name, Time missing, or Source...',
+  textPlaceholder: 'Search by Name, Location, etc...',
   textErr: '',  // 👈 hides "Location not found"
   autoCollapse: true,   // collapse after selection
   
