@@ -222,7 +222,7 @@ var mergedSearch = new L.Control.Search({
   initial: false,
   zoom: false,
   marker: false,
-  textPlaceholder: 'Search by Name, Vehicle, Description, or Place...',
+  textPlaceholder: 'Search by Name, Time missing, or Source...',
   textErr: '',  // 👈 hides "Location not found"
   autoCollapse: true,   // collapse after selection
   
