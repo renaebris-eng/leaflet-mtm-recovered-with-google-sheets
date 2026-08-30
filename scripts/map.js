@@ -156,41 +156,45 @@ function mapPoints(points, layers) {
           iconColor || 'white'
         );
 
-    // Convert URLs in Sources to clickable links
-    var sourcesLinks = '';
-    if (point['Sources'] && point['Sources'] !== '') {
-      var urls = String(point['Sources']).split(/[\s,]+/);
-      urls.forEach(function(url) {
-        if (!url) return;
-        sourcesLinks += `<a href="${url}" target="_blank">${url}</a><br>`;
-      });
-    }
+// Convert URLs in Source to clickable links
+var sourcesLinks = '';
+if (point['Source'] && point['Source'] !== '') {
+  var urls = String(point['Source']).split(/[\s,]+/);
+  urls.forEach(function(url) {
+    if (!url) return;
+    sourcesLinks += `<a href="${url}" target="_blank">${url}</a><br>`;
+  });
+}
 
-// Popup content with safe fallbacks
+// Popup content for recovered cases
 var popupContent = `
-  <b>${point['Name'] || ''}</b><br>
-  ${point['Image'] ? ('<img src="' + point['Image'] + '" style="max-width:300px; max-height:220px; width:auto; height:auto; display:block; margin:5px 0;"><br>') : ''}
-  <b>Vehicle:</b> ${point['Vehicle'] || ''}<br>
-  ${point['Description'] || ''}<br>
-  ${sourcesLinks ? '<br>' + sourcesLinks : ''}
+  <b>${point['Name(s)'] || ''}</b><br>
+  ${point['Time missing (vehicle, approximate)'] ? '<b>Time missing:</b> ' + point['Time missing (vehicle, approximate)'] + '<br>' : ''}
+  ${point['Tribute'] ? '<b>Tribute:</b> ' + point['Tribute'] + '<br>' : ''}
+  ${point['Last seen'] ? '<b>Last seen:</b> ' + point['Last seen'] + '<br>' : ''}
+  ${point['Found'] ? '<b>Found:</b> ' + point['Found'] + '<br>' : ''}
+  ${sourcesLinks ? '<b>Source:</b><br>' + sourcesLinks : ''}
 `;
+
 // Create the marker with validated coords
-var marker = L.marker([lat, lng], { 
+var marker = L.marker([lat, lng], {
   icon: icon,
-  Name: point.Name,
-  Vehicle: point.Vehicle,
-  Description: point.Description
+  Name: point['Name(s)']
 }).bindPopup(popupContent);
 
-    // Small helper to clean text
+// Small helper to clean text
 function cleanText(str) {
   return (str || "").replace(/\s+/g, " ").trim();
 }
-    // --- Marker search data ---
+
+// Marker search data
 marker.searchData =
-  cleanText(point.Name) + " " +
-  cleanText(point.Vehicle) + " " +
-  cleanText(point.Description);
+  cleanText(point['Name(s)']) + " " +
+  cleanText(point['Time missing (vehicle, approximate)']) + " " +
+  cleanText(point['Tribute']) + " " +
+  cleanText(point['Last seen']) + " " +
+  cleanText(point['Found']) + " " +
+  cleanText(point['Source']);
 
 if (!marker.feature) marker.feature = { type: "Feature", properties: {} };
 marker.feature.properties.searchData = marker.searchData;
