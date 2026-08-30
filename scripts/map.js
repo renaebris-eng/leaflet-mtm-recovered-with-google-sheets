@@ -1105,21 +1105,6 @@ mergedSearch._input.addEventListener('keydown', function(e) {
 
   } 
 
-// --- Basemap Layers ---
-var osm = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png');
-
-var esriSat = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}');
-
-// Add default (Esri now)
-esriSat.addTo(map);
-
-// Layer switcher
-var baseLayers = {
-    "OpenStreetMap": osm,
-    "Esri World Imagery": esriSat
-};
-L.control.layers(baseLayers).addTo(map);
-
   /**
    * Returns the value of a setting s
    * getSetting(s) is equivalent to documentSettings[constants.s]
