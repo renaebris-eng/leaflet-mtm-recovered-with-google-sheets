@@ -197,7 +197,7 @@ if (point['Source'] && point['Source'] !== '') {
 var popupContent = `
   ${point['Image'] ? '<img src="' + point['Image'] + '" style="max-width:300px; max-height:220px; width:auto; height:auto; display:block; margin:0 auto 10px auto;">' : ''}
   <b>${point['Name(s)'] || ''}</b><br>
-  ${point['Time missing (vehicle, approximate)'] ? '<b>Missing with Vehicle for:</b> ' + point['Time missing (vehicle, approximate)'] + '<br>' : ''}
+  ${point['Vehicle missing for'] ? '<b>Vehicle missing for:</b> ' + point['Vehicle missing for'] + '<br>' : ''}
   ${point['Tribute'] ? '<b>Tribute:</b> ' + point['Tribute'] + '<br>' : ''}
   ${point['Last seen'] ? '<b>Last seen:</b> ' + point['Last seen'] + '<br>' : ''}
   ${point['Found'] ? '<b>Found:</b> ' + point['Found'] + '<br>' : ''}
