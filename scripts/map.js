@@ -20,7 +20,38 @@ $(window).on('load', function() {
       iconColor: iconColor
     });
   }
+function createRecoveryMarker(color) {
+  var colorMap = {
+    red: '#d9534f',
+    darkred: '#a94442',
+    orange: '#f0ad4e',
+    yellow: '#f7c948',
+    green: '#5cb85c',
+    darkgreen: '#398439',
+    blue: '#428bca',
+    purple: '#8e44ad',
+    darkpurple: '#663399',
+    cadetblue: '#5bc0de',
+    white: '#f5f5f5',
+    gray: '#777',
+    black: '#222',
+    teal: '#20a39e'
+  };
 
+  var ringColor = colorMap[(color || '').toLowerCase()] || '#f7c948';
+
+  return L.divIcon({
+    className: 'recovery-marker-wrapper',
+    html:
+      '<div class="recovery-marker" style="' +
+        '--ring-color:' + ringColor + ';">' +
+        '<div class="recovery-marker-center"></div>' +
+      '</div>',
+    iconSize: [38, 38],
+    iconAnchor: [19, 19],
+    popupAnchor: [0, -19]
+  });
+}
 
   /**
    * Sets the map view so that all markers are visible, or
