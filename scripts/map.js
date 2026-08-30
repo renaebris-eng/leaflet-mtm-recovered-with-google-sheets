@@ -173,19 +173,8 @@ function mapPoints(points, layers) {
       : [32, 32];
     var anchor = [size[0] / 2, size[1]];
 
-    // Build the icon (custom URL vs AwesomeMarkers)
-    var icon = (markerIconStr.indexOf('.') > 0)
-      ? L.icon({
-          iconUrl: markerIconStr,
-          iconSize: size,
-          iconAnchor: anchor
-        })
-      : createMarkerIcon(
-          markerIconStr || 'fa-life-ring', // fallback FA icon name
-          'fa',
-          markerColor.toLowerCase(),
-          iconColor || 'white'
-        );
+// Build recovered-map marker
+var icon = createRecoveryMarker(markerColor);
 
 // Convert URLs in Source to clickable links
 var sourcesLinks = '';
