@@ -99,40 +99,53 @@ var colorMap = {
   }
 
 
-  /**
-   * Given a collection of points, determines the layers based on 'Group'
-   * column in the spreadsheet.
-   */
-  function determineLayers(points) {
-    var groups = [];
-    var layers = {};
+/**
+ * Given a collection of points, determines the layers based on 'Group'
+ * column in the spreadsheet.
+ */
+function determineLayers(points) {
+  var groups = [];
+  var layers = {};
+  var groupCounts = {};
 
-    for (var i in points) {
-      var group = points[i].Group;
-      if (group && groups.indexOf(group) === -1) {
-        // Add group to groups
-        groups.push(group);
+  for (var i in points) {
+    var group = points[i].Group;
 
-        // Add color to the crosswalk
-        group2color[ group ] = points[i]['Marker Icon'].indexOf('.') > 0
-          ? points[i]['Marker Icon']
-          : points[i]['Marker Color'];
-      }
+    if (group && groups.indexOf(group) === -1) {
+      // Add group to groups
+      groups.push(group);
+
+      // Add color to the crosswalk
+      group2color[group] = points[i]['Marker Icon'].indexOf('.') > 0
+        ? points[i]['Marker Icon']
+        : points[i]['Marker Color'];
     }
 
-    // if none of the points have named layers, return no layers
-    if (groups.length === 0) {
-      layers = undefined;
-    } else {
-      for (var i in groups) {
-        var name = groups[i];
-        layers[name] = L.layerGroup();
-        layers[name].addTo(map);
+    // Count cases in each group
+    if (group) {
+      if (!groupCounts[group]) {
+        groupCounts[group] = 0;
       }
+      groupCounts[group]++;
     }
-    return layers;
   }
 
+  // if none of the points have named layers, return no layers
+  if (groups.length === 0) {
+    layers = undefined;
+  } else {
+    for (var i in groups) {
+      var name = groups[i];
+      layers[name] = L.layerGroup();
+      layers[name].addTo(map);
+    }
+  }
+
+  // Make the counts available to the layer-control code
+  window.groupCounts = groupCounts;
+
+  return layers;
+}
   /**
    * Assigns points to appropriate layers and clusters them if needed
    */
