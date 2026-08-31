@@ -869,16 +869,23 @@ if (getSetting('_pointsLegendPos') !== 'off') {
     // Change Map attribution to include author's info + urls
     changeAttribution();
 
-    // Append icons to categories in markers legend
-    $('#points-legend input+span').each(function(i) { // add to <span> that follows <input>
-      var g = $(this).text().trim();
-      var legendIcon = (group2color[ g ].indexOf('.') > 0)
-        ? '<img src="' + group2color[ g ] + '" class="markers-legend-icon">'
-        : '&nbsp;<i class="fas fa-map-marker" style="color: '
-          + group2color[ g ]
-          + '"></i>';
-      $(this).prepend(legendIcon);
-    });
+// Append icons and case counts to categories in markers legend
+$('#points-legend input+span').each(function(i) { // add to <span> that follows <input>
+  var g = $(this).text().trim();
+
+  var legendIcon = (group2color[g].indexOf('.') > 0)
+    ? '<img src="' + group2color[g] + '" class="markers-legend-icon">'
+    : '&nbsp;<i class="fas fa-map-marker" style="color: '
+      + group2color[g]
+      + '"></i>';
+
+  $(this).prepend(legendIcon);
+
+  // Add case count
+  if (window.groupCounts && window.groupCounts[g] !== undefined) {
+    $(this).append(' (' + window.groupCounts[g] + ')');
+  }
+});
 
     // When all processing is done, hide the loader and make the map visible
     showMap();
