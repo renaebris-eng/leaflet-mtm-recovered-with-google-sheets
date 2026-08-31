@@ -364,16 +364,7 @@ mergedSearch._input.addEventListener('keydown', function(e) {
       ? 'topleft'
       : getSetting('_pointsLegendPos');
 
-var displayLayers = {};
-
-for (var lname in layers) {
-  if (!layers.hasOwnProperty(lname)) continue;
-
-  var count = window.groupCounts[lname] || 0;
-  displayLayers[lname + ' (' + count + ')'] = layers[lname];
-}
-
-var pointsLegend = L.control.layers(null, displayLayers, {
+var pointsLegend = L.control.layers(null, layers, {
   collapsed: false,
   position: pos,
 });
