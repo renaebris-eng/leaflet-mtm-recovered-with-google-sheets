@@ -369,6 +369,29 @@ var pointsLegend = L.control.layers(null, layers, {
   position: pos,
 });
 
+pointsLegend.onAdd = (function(originalOnAdd) {
+  return function(map) {
+    var container = originalOnAdd.call(this, map);
+
+    if (window.groupCounts) {
+      var labels = container.querySelectorAll(
+        '.leaflet-control-layers-overlays label'
+      );
+
+      for (var i = 0; i < labels.length; i++) {
+        var labelText = labels[i].textContent.trim();
+
+        if (window.groupCounts[labelText] !== undefined) {
+          labels[i].lastChild.textContent =
+            ' ' + labelText + ' (' + window.groupCounts[labelText] + ')';
+        }
+      }
+    }
+
+    return container;
+  };
+})(pointsLegend.onAdd);
+
     if (getSetting('_pointsLegendPos') !== 'off') {
       pointsLegend.addTo(map);
       pointsLegend._container.id = 'points-legend';
