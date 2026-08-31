@@ -109,15 +109,17 @@ var colorMap = {
 
     for (var i in points) {
       var group = points[i].Group;
-if (group && groups.indexOf(group) === -1) {
-  // Add group to groups
-  groups.push(group);
+      if (group && groups.indexOf(group) === -1) {
+        // Add group to groups
+        groups.push(group);
 
-  // Add color to the crosswalk
-  group2color[ group ] = points[i]['Marker Icon'].indexOf('.') > 0
-    ? points[i]['Marker Icon']
-    : points[i]['Marker Color'];
-}
+        // Add color to the crosswalk
+        group2color[ group ] = points[i]['Marker Icon'].indexOf('.') > 0
+          ? points[i]['Marker Icon']
+          : points[i]['Marker Color'];
+      }
+    }
+
     // if none of the points have named layers, return no layers
     if (groups.length === 0) {
       layers = undefined;
