@@ -16,7 +16,7 @@ $(window).on('load', function() {
     return L.AwesomeMarkers.icon({
       icon: icon,
       prefix: prefix,
-      markerColor: markerColor || "darkblue",
+      markerColor: markerColor || "blue",
       iconColor: iconColor
     });
   }
@@ -184,8 +184,8 @@ function mapPoints(points, layers) {
     var markerColor   = (point['Marker Color'] || '').toString();
     var iconColor     = (point['Icon Color'] || '').toString();
 
-    // Optional: default marker color when empty (darkblue)
-    if (!markerColor) markerColor = 'darkblue';
+    // Optional: default marker color when empty (blue)
+    if (!markerColor) markerColor = 'blue';
 
     // Compute icon size
     var size = (iconSizeStr.indexOf('x') > 0)
