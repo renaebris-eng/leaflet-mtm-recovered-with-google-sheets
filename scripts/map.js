@@ -369,35 +369,36 @@ var pointsLegend = L.control.layers(null, layers, {
   position: pos,
 });
 
-pointsLegend.onAdd = (function(originalOnAdd) {
-  return function(map) {
-    var container = originalOnAdd.call(this, map);
+if (getSetting('_pointsLegendPos') !== 'off') {
+  pointsLegend.addTo(map);
+  pointsLegend._container.id = 'points-legend';
+  pointsLegend._container.className += ' ladder';
 
-    if (window.groupCounts) {
-      var labels = container.querySelectorAll(
-        '.leaflet-control-layers-overlays label'
-      );
+  // Add case counts without changing Leaflet's checkbox structure
+  var labels = pointsLegend._form.querySelectorAll(
+    '.leaflet-control-layers-overlays label'
+  );
 
-      for (var i = 0; i < labels.length; i++) {
-        var labelText = labels[i].textContent.trim();
+  for (var i = 0; i < labels.length; i++) {
+    var label = labels[i];
+    var groupName = label.textContent.trim();
 
-        if (window.groupCounts[labelText] !== undefined) {
-          labels[i].lastChild.textContent =
-            ' ' + labelText + ' (' + window.groupCounts[labelText] + ')';
+    if (window.groupCounts && window.groupCounts[groupName] !== undefined) {
+      var textNodes = [];
+
+      for (var n = 0; n < label.childNodes.length; n++) {
+        if (label.childNodes[n].nodeType === 3) {
+          textNodes.push(label.childNodes[n]);
         }
       }
-    }
 
-    return container;
-  };
-})(pointsLegend.onAdd);
-
-    if (getSetting('_pointsLegendPos') !== 'off') {
-      pointsLegend.addTo(map);
-      pointsLegend._container.id = 'points-legend';
-      pointsLegend._container.className += ' ladder';
+      if (textNodes.length > 0) {
+        textNodes[textNodes.length - 1].textContent =
+          ' ' + groupName + ' (' + window.groupCounts[groupName] + ')';
+      }
     }
   }
+}
 
   $('#points-legend').prepend('<h6 class="pointer">' + getSetting('_pointsLegendTitle') + '</h6>');
   if (getSetting('_pointsLegendIcon') != '') {
