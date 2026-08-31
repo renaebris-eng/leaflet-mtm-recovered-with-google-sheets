@@ -373,31 +373,6 @@ if (getSetting('_pointsLegendPos') !== 'off') {
   pointsLegend.addTo(map);
   pointsLegend._container.id = 'points-legend';
   pointsLegend._container.className += ' ladder';
-
-  // Add case counts without changing Leaflet's checkbox structure
-  var labels = pointsLegend._form.querySelectorAll(
-    '.leaflet-control-layers-overlays label'
-  );
-
-  for (var i = 0; i < labels.length; i++) {
-    var label = labels[i];
-    var groupName = label.textContent.trim();
-
-    if (window.groupCounts && window.groupCounts[groupName] !== undefined) {
-      var textNodes = [];
-
-      for (var n = 0; n < label.childNodes.length; n++) {
-        if (label.childNodes[n].nodeType === 3) {
-          textNodes.push(label.childNodes[n]);
-        }
-      }
-
-      if (textNodes.length > 0) {
-        textNodes[textNodes.length - 1].textContent =
-          ' ' + groupName + ' (' + window.groupCounts[groupName] + ')';
-      }
-    }
-  }
 }
 
   $('#points-legend').prepend('<h6 class="pointer">' + getSetting('_pointsLegendTitle') + '</h6>');
