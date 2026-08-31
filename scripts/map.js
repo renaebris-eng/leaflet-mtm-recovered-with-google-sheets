@@ -364,10 +364,19 @@ mergedSearch._input.addEventListener('keydown', function(e) {
       ? 'topleft'
       : getSetting('_pointsLegendPos');
 
-    var pointsLegend = L.control.layers(null, layers, {
-      collapsed: false,
-      position: pos,
-    });
+var displayLayers = {};
+
+for (var lname in layers) {
+  if (!layers.hasOwnProperty(lname)) continue;
+
+  var count = window.groupCounts[lname] || 0;
+  displayLayers[lname + ' (' + count + ')'] = layers[lname];
+}
+
+var pointsLegend = L.control.layers(null, displayLayers, {
+  collapsed: false,
+  position: pos,
+});
 
     if (getSetting('_pointsLegendPos') !== 'off') {
       pointsLegend.addTo(map);
