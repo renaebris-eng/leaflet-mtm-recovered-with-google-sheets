@@ -103,22 +103,32 @@ var colorMap = {
    * Given a collection of points, determines the layers based on 'Group'
    * column in the spreadsheet.
    */
+   var groupCounts = {};
+  
   function determineLayers(points) {
     var groups = [];
     var layers = {};
 
     for (var i in points) {
       var group = points[i].Group;
-      if (group && groups.indexOf(group) === -1) {
-        // Add group to groups
-        groups.push(group);
+if (group) {
 
-        // Add color to the crosswalk
-        group2color[ group ] = points[i]['Marker Icon'].indexOf('.') > 0
-          ? points[i]['Marker Icon']
-          : points[i]['Marker Color'];
-      }
-    }
+  // Count cases in each group
+  if (!groupCounts[group]) {
+    groupCounts[group] = 0;
+  }
+  groupCounts[group]++;
+
+  // Add group to groups
+  if (groups.indexOf(group) === -1) {
+    groups.push(group);
+
+    // Add color to the crosswalk
+    group2color[group] = points[i]['Marker Icon'].indexOf('.') > 0
+      ? points[i]['Marker Icon']
+      : points[i]['Marker Color'];
+  }
+}
 
     // if none of the points have named layers, return no layers
     if (groups.length === 0) {
@@ -356,12 +366,41 @@ mergedSearch._input.addEventListener('keydown', function(e) {
       position: pos,
     });
 
-    if (getSetting('_pointsLegendPos') !== 'off') {
-      pointsLegend.addTo(map);
-      pointsLegend._container.id = 'points-legend';
-      pointsLegend._container.className += ' ladder';
+if (getSetting('_pointsLegendPos') !== 'off') {
+  pointsLegend.addTo(map);
+  pointsLegend._container.id = 'points-legend';
+  pointsLegend._container.className += ' ladder';
+}
+  // Add case counts to the layer names
+setTimeout(function() {
+  $('#points-legend .leaflet-control-layers-overlays label').each(function() {
+    var label = $(this);
+    var groupName = label.text().trim();
+
+    if (groupCounts[groupName] !== undefined) {
+      label.contents().filter(function() {
+        return this.nodeType === 3;
+      }).first().replaceWith(
+        ' ' + groupName + ' (' + groupCounts[groupName] + ')'
+      );
     }
-  }
+  });
+}, 0);
+
+  // Add case counts to the year/group labels
+  $('#points-legend .leaflet-control-layers-overlays label').each(function() {
+    var label = $(this);
+    var groupName = label.text().trim();
+
+    if (groupCounts[groupName] !== undefined) {
+      label.contents().filter(function() {
+        return this.nodeType === 3;
+      }).first().replaceWith(
+        groupName + ' (' + groupCounts[groupName] + ')'
+      );
+    }
+  });
+}
 
   $('#points-legend').prepend('<h6 class="pointer">' + getSetting('_pointsLegendTitle') + '</h6>');
   if (getSetting('_pointsLegendIcon') != '') {
