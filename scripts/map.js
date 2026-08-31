@@ -106,29 +106,18 @@ var colorMap = {
   function determineLayers(points) {
     var groups = [];
     var layers = {};
-    var groupCounts = {};
 
     for (var i in points) {
       var group = points[i].Group;
-if (group) {
-
-  // Count cases in each group
-  if (!groupCounts[group]) {
-    groupCounts[group] = 0;
-  }
-  groupCounts[group]++;
-
+if (group && groups.indexOf(group) === -1) {
   // Add group to groups
-  if (groups.indexOf(group) === -1) {
-    groups.push(group);
+  groups.push(group);
 
-    // Add color to the crosswalk
-    group2color[group] = points[i]['Marker Icon'].indexOf('.') > 0
-      ? points[i]['Marker Icon']
-      : points[i]['Marker Color'];
-  }
+  // Add color to the crosswalk
+  group2color[ group ] = points[i]['Marker Icon'].indexOf('.') > 0
+    ? points[i]['Marker Icon']
+    : points[i]['Marker Color'];
 }
-
     // if none of the points have named layers, return no layers
     if (groups.length === 0) {
       layers = undefined;
