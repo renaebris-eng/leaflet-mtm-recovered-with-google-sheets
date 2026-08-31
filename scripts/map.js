@@ -368,6 +368,23 @@ var pointsLegend = L.control.layers(null, layers, {
   collapsed: false,
   position: pos,
 });
+    // Add case counts to the layer-control labels
+setTimeout(function() {
+  if (window.groupCounts) {
+    $('#points-legend .leaflet-control-layers-overlays label').each(function() {
+      var label = $(this);
+      var groupName = label.text().trim();
+
+      if (window.groupCounts[groupName] !== undefined) {
+        label.contents().filter(function() {
+          return this.nodeType === 3;
+        }).first().replaceWith(
+          groupName + ' (' + window.groupCounts[groupName] + ')'
+        );
+      }
+    });
+  }
+}, 0);
 
     if (getSetting('_pointsLegendPos') !== 'off') {
       pointsLegend.addTo(map);
