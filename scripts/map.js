@@ -473,6 +473,8 @@ if (getSetting('_pointsLegendPos') !== 'off') {
   // no return needed; original flow adds to map here
 }
 
+}
+
   var polygon = 0; // current active polygon
   var layer = 0; // number representing current layer among layers in legend
 
